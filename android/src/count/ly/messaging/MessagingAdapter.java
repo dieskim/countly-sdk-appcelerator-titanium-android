@@ -8,7 +8,7 @@ import java.lang.reflect.Method;
 
 public class MessagingAdapter {
     private static final String TAG = "MessagingAdapter";
-    private final static String MESSAGING_CLASS_NAME = "ly.count.android.sdk.messaging.CountlyMessaging";
+    private final static String MESSAGING_CLASS_NAME = "count.ly.messaging.CountlyMessaging";
 
     public static boolean isMessagingAvailable() {
         boolean messagingAvailable = false;

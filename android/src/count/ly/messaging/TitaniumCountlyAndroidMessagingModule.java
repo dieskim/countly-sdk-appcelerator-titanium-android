@@ -8,20 +8,21 @@
  */
 package count.ly.messaging;
 
+import java.util.HashMap;
+
+import org.appcelerator.kroll.KrollDict;
 import org.appcelerator.kroll.KrollModule;
 import org.appcelerator.kroll.annotations.Kroll;
-
 import org.appcelerator.titanium.TiApplication;
 import org.appcelerator.kroll.common.Log;
 import org.appcelerator.kroll.common.TiConfig;
-
 
 @Kroll.module(name="TitaniumCountlyAndroidMessaging", id="count.ly.messaging")
 public class TitaniumCountlyAndroidMessagingModule extends KrollModule
 {
 
 	// Standard Debugging variables
-	private static final String LCAT = "TitaniumCountlyAndroidMessagingModule";
+	private static final String LCAT = "CountlyMessagingModule";
 	private static final boolean DBG = TiConfig.LOGD;
 
 	// You can define constants with @Kroll.constant, for example:
@@ -40,26 +41,114 @@ public class TitaniumCountlyAndroidMessagingModule extends KrollModule
 	}
 
 	// Methods
-	@Kroll.method
-	public String example()
-	{
-		Log.d(LCAT, "example called");
-		return "hello world";
-	}
+		@Kroll.method
+		public void start(String apiKey,String url) {
+			Log.d(LCAT, "Start called");
+			
+			Countly.sharedInstance().init(TiApplication.getAppCurrentActivity(),
+					url, apiKey);
+			
+			Countly.sharedInstance().onStart();
+		}	
+		
+		@Kroll.method
+		public void startMessagingTest(String apiKey,String url,String projectID) {
+			Log.d(LCAT, "Start Messaging called");
+			
+			Countly.sharedInstance()
+			.init(TiApplication.getAppCurrentActivity(),url, apiKey, null, DeviceId.Type.ADVERTISING_ID)
+			.initMessaging(TiApplication.getAppCurrentActivity(), null, projectID, Countly.CountlyMessagingMode.TEST);
+			
+			Countly.sharedInstance().onStart();
+		}
+		
+		@Kroll.method
+		public void stopCount() {
+			Log.d(LCAT, "Stop Count called");
+			Countly.sharedInstance().onStop();
+		}
 
-	// Properties
-	@Kroll.getProperty
-	public String getExampleProp()
-	{
-		Log.d(LCAT, "get example property");
-		return "hello world";
-	}
+		
+		@Kroll.method
+		public void event(KrollDict args) {
+			Log.d(LCAT, "Event Send called");
+			
+			Object keyObject = args.get("name");
+			Object countObject = args.get("count");
+			Object sumObject = args.get("sum");
+			Object segmentationObject = args.get("segmentation");
+					
+			// set key and count
+			String key = keyObject.toString();
+			int count = (Integer) countObject;
+						
+			// START IF - has segmentation
+			if(segmentationObject != null){
+				
+				// set segmentation
+	        	HashMap<String, String> segmentation = (HashMap<String, String>) segmentationObject;
+	        	
+				// START IF - has sum
+		        if(sumObject != null){
+		        	
+		        	// set sum
+		        	double sum = Double.parseDouble(sumObject.toString());
+		        	
+		        	// recordEvent with key, segmentation, count and sum
+		        	Countly.sharedInstance().recordEvent(key, segmentation, count, sum);
 
+		        }else{
+		        	
+		        	// recordEvent with key, segmentation, count - no sum
+		        	Countly.sharedInstance().recordEvent(key, segmentation, count);
 
-	@Kroll.setProperty
-	public void setExampleProp(String value) {
-		Log.d(LCAT, "set example property: " + value);
-	}
+		        }
+		        // END IF - has sum
+		        
+		    }else if(sumObject != null){ // ELSE IF - no segmentation but has sum 
+		    	
+		    	// set sum
+	        	double sum = Double.parseDouble(sumObject.toString());
+	        	
+	        	// recordEvent with key, count and sum - no segmentation
+		    	Countly.sharedInstance().recordEvent(key, count, sum);
+
+		    }else{ // ELSE - no segmentation or sum
+		    	
+		    	// recordEvent with key and count - no sum and no segmentation
+		    	Countly.sharedInstance().recordEvent(key, count);
+
+		    }
+			// END IF - check for segmentation data
+
+		}
+		
+		@Kroll.method
+		public void userData(KrollDict args) {
+			Log.d(LCAT, "UserData Send called");
+			
+			Object userDataObject = args.get("userData");
+			Object customUserDataObject = args.get("customUserData");
+			
+			// set userData
+	    	HashMap<String, String> userData = (HashMap<String, String>) userDataObject;
+	    	
+			// START IF - has customData
+			if(customUserDataObject != null){
+				
+				// set customUserData
+	        	HashMap<String, String> customUserData = (HashMap<String, String>) customUserDataObject;
+	        	
+				Countly.sharedInstance().setUserData(userData, customUserData);			
+				
+			}else{	// ELSE - no customData
+				
+				Countly.sharedInstance().setUserData(userData);
+				
+			}			
+			// END IF - has customData
+			
+		}	
 
 }
 

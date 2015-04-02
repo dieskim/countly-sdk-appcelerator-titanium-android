@@ -7,6 +7,43 @@
 	<iphone>
 	</iphone>
 	<android xmlns:android="http://schemas.android.com/apk/res/android">
+		<manifest>
+			<!-- START COUNT.LY PERMISSIONS SECTION-->   			
+	        <permission android:name="${tiapp.properties['id']}.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+			<uses-permission android:name="${tiapp.properties['id']}.permission.C2D_MESSAGE" />
+			<uses-permission android:name="android.permission.INTERNET"/>
+    		<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+   			<uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+   			<uses-permission android:name="android.permission.WAKE_LOCK"/>
+   			
+	        <!-- END COUNT.LY PERMISSIONS SECTION-->
+	        <!-- START - Application SECTION -->
+	        <application>
+	        	<meta-data android:name="com.google.android.gms.version" android:value="7095000" />
+				
+				<activity
+		            android:name="count.ly.messaging.ProxyActivity"
+		            android:label="@string/app_name" android:theme="@android:style/Theme.Translucent" android:noHistory="true"/>
+		        <receiver
+		            android:name="count.ly.messaging.CountlyMessaging"
+		            android:permission="com.google.android.c2dm.permission.SEND" >
+		            <intent-filter>
+		                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+		                <category android:name="ly.count.android.api" />
+		            </intent-filter>
+		        </receiver>
+		        <service android:name="count.ly.messaging.CountlyMessagingService" >
+		            <meta-data android:name="broadcast_action" android:value="ly.count.android.api.broadcast" />
+		        </service>
+        
+				<service android:name="org.openudid.OpenUDID_service">
+					<intent-filter>
+						<action android:name="org.openudid.GETUDID" />
+					</intent-filter>
+				</service>
+			</application>
+	        <!-- END - Application SECTION -->
+		</manifest>	
 	</android>
 	<mobileweb>
 	</mobileweb>
