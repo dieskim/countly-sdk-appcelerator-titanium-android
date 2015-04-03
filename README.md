@@ -102,7 +102,7 @@ Countly.addEventListener('receivePush',function(pushMessageData){
 	
 	Ti.API.info("pushID: " + pushID + " pushAlertMessage: " + pushAlertMessage + "pushType: " + pushType + " pushData: " + pushData + " pushSound: " + pushSound);
 	
-	if (pushType == "hasLink){
+	if (pushType == "hasLink"){
 	
 		///////////////////////////////////////////////////////////
 		//              SHOW AN LINK ALERT HERE                 //
