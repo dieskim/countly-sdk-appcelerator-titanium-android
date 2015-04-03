@@ -30,17 +30,19 @@ public:
 
 private:
 	// Methods -----------------------------------------------------------
+	static v8::Handle<v8::Value> setLocation(const v8::Arguments&);
+	static v8::Handle<v8::Value> startMessaging(const v8::Arguments&);
 	static v8::Handle<v8::Value> startMessagingTest(const v8::Arguments&);
+	static v8::Handle<v8::Value> recordPushAction(const v8::Arguments&);
 	static v8::Handle<v8::Value> start(const v8::Arguments&);
+	static v8::Handle<v8::Value> test(const v8::Arguments&);
 	static v8::Handle<v8::Value> event(const v8::Arguments&);
+	static v8::Handle<v8::Value> sendNotification(const v8::Arguments&);
 	static v8::Handle<v8::Value> stopCount(const v8::Arguments&);
 	static v8::Handle<v8::Value> enableDebug(const v8::Arguments&);
-	static v8::Handle<v8::Value> example(const v8::Arguments&);
 	static v8::Handle<v8::Value> userData(const v8::Arguments&);
 
 	// Dynamic property accessors ----------------------------------------
-	static v8::Handle<v8::Value> getter_exampleProp(v8::Local<v8::String> property, const v8::AccessorInfo& info);
-	static void setter_exampleProp(v8::Local<v8::String> property, v8::Local<v8::Value> value, const v8::AccessorInfo& info);
 
 };
 

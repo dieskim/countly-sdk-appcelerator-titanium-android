@@ -10,12 +10,11 @@
 #include <KrollBindings.h>
 
 #include "count.ly.messaging.TitaniumCountlyAndroidMessagingModule.h"
-#include "count.ly.messaging.ExampleProxy.h"
 
 
-#line 14 "/private/var/folders/hc/19hq28_941d4h7wx_qj406vr0000gn/T/dieskim/titanium-countly-android-messaging-generated/KrollGeneratedBindings.gperf"
+#line 13 "/private/var/folders/hc/19hq28_941d4h7wx_qj406vr0000gn/T/dieskim/titanium-countly-android-messaging-generated/KrollGeneratedBindings.gperf"
 struct titanium::bindings::BindEntry;
-/* maximum key range = 26, duplicates = 0 */
+/* maximum key range = 1, duplicates = 0 */
 
 class TitaniumCountlyAndroidMessagingBindings
 {
@@ -37,10 +36,10 @@ TitaniumCountlyAndroidMessagingBindings::lookupGeneratedInit (register const cha
 {
   enum
     {
-      TOTAL_KEYWORDS = 2,
-      MIN_WORD_LENGTH = 31,
+      TOTAL_KEYWORDS = 1,
+      MIN_WORD_LENGTH = 56,
       MAX_WORD_LENGTH = 56,
-      MIN_HASH_VALUE = 31,
+      MIN_HASH_VALUE = 56,
       MAX_HASH_VALUE = 56
     };
 
@@ -49,13 +48,11 @@ TitaniumCountlyAndroidMessagingBindings::lookupGeneratedInit (register const cha
       {""}, {""}, {""}, {""}, {""}, {""}, {""}, {""}, {""},
       {""}, {""}, {""}, {""}, {""}, {""}, {""}, {""}, {""},
       {""}, {""}, {""}, {""}, {""}, {""}, {""}, {""}, {""},
-      {""}, {""}, {""}, {""},
-#line 17 "/private/var/folders/hc/19hq28_941d4h7wx_qj406vr0000gn/T/dieskim/titanium-countly-android-messaging-generated/KrollGeneratedBindings.gperf"
-      {"count.ly.messaging.ExampleProxy", ::count::ly::messaging::titaniumcountlyandroidmessaging::ExampleProxy::bindProxy, ::count::ly::messaging::titaniumcountlyandroidmessaging::ExampleProxy::dispose},
       {""}, {""}, {""}, {""}, {""}, {""}, {""}, {""}, {""},
       {""}, {""}, {""}, {""}, {""}, {""}, {""}, {""}, {""},
-      {""}, {""}, {""}, {""}, {""}, {""},
-#line 16 "/private/var/folders/hc/19hq28_941d4h7wx_qj406vr0000gn/T/dieskim/titanium-countly-android-messaging-generated/KrollGeneratedBindings.gperf"
+      {""}, {""}, {""}, {""}, {""}, {""}, {""}, {""}, {""},
+      {""}, {""},
+#line 15 "/private/var/folders/hc/19hq28_941d4h7wx_qj406vr0000gn/T/dieskim/titanium-countly-android-messaging-generated/KrollGeneratedBindings.gperf"
       {"count.ly.messaging.TitaniumCountlyAndroidMessagingModule", ::count::ly::messaging::TitaniumCountlyAndroidMessagingModule::bindProxy, ::count::ly::messaging::TitaniumCountlyAndroidMessagingModule::dispose}
     };
 
@@ -73,5 +70,5 @@ TitaniumCountlyAndroidMessagingBindings::lookupGeneratedInit (register const cha
     }
   return 0;
 }
-#line 18 "/private/var/folders/hc/19hq28_941d4h7wx_qj406vr0000gn/T/dieskim/titanium-countly-android-messaging-generated/KrollGeneratedBindings.gperf"
+#line 16 "/private/var/folders/hc/19hq28_941d4h7wx_qj406vr0000gn/T/dieskim/titanium-countly-android-messaging-generated/KrollGeneratedBindings.gperf"
 

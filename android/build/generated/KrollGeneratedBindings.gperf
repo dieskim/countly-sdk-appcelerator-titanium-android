@@ -7,12 +7,10 @@
 #include <KrollBindings.h>
 
 #include "count.ly.messaging.TitaniumCountlyAndroidMessagingModule.h"
-#include "count.ly.messaging.ExampleProxy.h"
 
 
 %}
 struct titanium::bindings::BindEntry;
 %%
 count.ly.messaging.TitaniumCountlyAndroidMessagingModule, ::count::ly::messaging::TitaniumCountlyAndroidMessagingModule::bindProxy, ::count::ly::messaging::TitaniumCountlyAndroidMessagingModule::dispose
-count.ly.messaging.ExampleProxy, ::count::ly::messaging::titaniumcountlyandroidmessaging::ExampleProxy::bindProxy, ::count::ly::messaging::titaniumcountlyandroidmessaging::ExampleProxy::dispose
 %%

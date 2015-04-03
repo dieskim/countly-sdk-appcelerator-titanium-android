@@ -62,7 +62,7 @@ public class CountlyMessagingService extends IntentService {
                         CountlyMessaging.recordMessageOpen(msg.getId());
                     } else {
                         // Go through proxy activity to be able to record message open & action performed events
-                        Intent proxy = new Intent(getApplicationContext(), ProxyActivity.class);
+                        Intent proxy = new Intent(getApplicationContext(), TitaniumProxyActivity.class);
                         proxy.putExtra(CountlyMessaging.EXTRA_MESSAGE, msg);
                         notify(proxy);
                     }

@@ -12,28 +12,61 @@ var label = Ti.UI.createLabel();
 win.add(label);
 win.open();
 
-// TODO: write your module tests here
-var titanium_countly_android_messaging = require('count.ly.messaging');
-Ti.API.info("module is => " + titanium_countly_android_messaging);
+// Start Countly
+var Countly = require('count.ly.messaging');
 
-label.text = titanium_countly_android_messaging.example();
+// enableDebug if needed
+Countly.enableDebug();
 
-Ti.API.info("module exampleProp is => " + titanium_countly_android_messaging.exampleProp);
-titanium_countly_android_messaging.exampleProp = "This is a test value";
+// START Countly with Messaging - DEVELOPMENT TEST
+Countly.startMessagingTest('COUNLY_APP_KEY','http://yourserver.com','GCM_PROJECT_ID');
+	
+// START Countly with Messaging - PRODUCTION
+//Countly.startMessaging('COUNLY_APP_KEY','http://yourserver.com','GCM_PROJECT_ID');
+		
+// ADD EVENTLISTENTER AND FUNCTION TO MODULE
+Countly.addEventListener('receivePush',function(pushMessageData){
+         
+	// Ti.API.info Raw pushMessage
+	Ti.API.info("Received Push");  
+    Ti.API.info(JSON.stringify(pushMessageData));  
+	 
+	var pushID = pushMessageData.id;
+	var pushAlertMessage = pushMessageData.message;
+	var pushType = pushMessageData.type || 'unknownType';
+	var pushLink = pushMessageData.link || '';
+	var pushSound = pushMessageData.sound || '';
+	var pushData = pushMessageData.data;						// all message data if needed
+	
+	Ti.API.info("pushID: " + pushID + " pushAlertMessage: " + pushAlertMessage + "pushType: " + pushType + " pushData: " + pushData + " pushSound: " + pushSound);
+	
+	if (pushType == "hasLink){
+		
+		 ///////////////////////////////////////////////////////////
+        //              SHOW AN LINK ALERT HERE                 //
+        // 1. Use info  - pushType
+        //              - pushLink
+        //              - pushAlertMessage
+        // 2. Once user Takes action log action with recordPushAction using pushID
 
-if (Ti.Platform.name == "android") {
-	var proxy = titanium_countly_android_messaging.createExample({
-		message: "Creating an example Proxy",
-		backgroundColor: "red",
-		width: 100,
-		height: 100,
-		top: 100,
-		left: 150
-	});
+        // Count.ly record Push Action  
+        // Countly.recordPushAction(pushID);    
+		
+	}else if (pushType == "hasReview"){
+		
+		// SHOW AN REVIEW ALERT HERE 
+		
+	}else if (pushType == "hasMessage"){
+		
+		// SHOW NORMAL ALERT HERE
+		
+	};
+	
+});
 
-	proxy.printMessage("Hello world!");
-	proxy.message = "Hi world!.  It's me again.";
-	proxy.printMessage("Hello world!");
-	win.add(proxy);
-}
+// Countly Set user location
+// - Takes two strings: latitudeString and longitudeString of 2 digit lengths
 
+var latitudeString = 12;
+var longitudeString = 10;
+Countly.setLocation(latitudeString,longitudeString);

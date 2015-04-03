@@ -21,7 +21,7 @@
 	        <application>
 	        	<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />				
 				<activity
-		            android:name="count.ly.messaging.ProxyActivity"
+		            android:name="count.ly.messaging.TitaniumProxyActivity"
 		            android:label="@string/app_name" android:theme="@android:style/Theme.Translucent" android:noHistory="true"/>
 		        <receiver
 		            android:name="count.ly.messaging.CountlyMessaging"
@@ -33,8 +33,7 @@
 		        </receiver>
 		        <service android:name="count.ly.messaging.CountlyMessagingService" >
 		            <meta-data android:name="broadcast_action" android:value="ly.count.android.api.broadcast" />
-		        </service>
-        
+		        </service>    
 				<service android:name="org.openudid.OpenUDID_service">
 					<intent-filter>
 						<action android:name="org.openudid.GETUDID" />

@@ -59,7 +59,6 @@
  /Users/dieskim/Library/Application\ Support/Titanium/mobilesdk/osx/3.5.0.GA/android/native/include/ProxyFactory.h \
  /Users/dieskim/Library/Application\ Support/Titanium/mobilesdk/osx/3.5.0.GA/android/native/include/TypeConverter.h \
  /Users/dieskim/Library/Application\ Support/Titanium/mobilesdk/osx/3.5.0.GA/android/native/include/V8Util.h \
- jni/count.ly.messaging.ExampleProxy.h \
  /Users/dieskim/Library/Application\ Support/Titanium/mobilesdk/osx/3.5.0.GA/android/native/include/org.appcelerator.kroll.KrollModule.h \
  /Users/dieskim/Library/Application\ Support/Titanium/mobilesdk/osx/3.5.0.GA/android/native/include/Proxy.h
 
@@ -180,8 +179,6 @@ jni/count.ly.messaging.TitaniumCountlyAndroidMessagingModule.h:
 /Users/dieskim/Library/Application\ Support/Titanium/mobilesdk/osx/3.5.0.GA/android/native/include/TypeConverter.h:
 
 /Users/dieskim/Library/Application\ Support/Titanium/mobilesdk/osx/3.5.0.GA/android/native/include/V8Util.h:
-
-jni/count.ly.messaging.ExampleProxy.h:
 
 /Users/dieskim/Library/Application\ Support/Titanium/mobilesdk/osx/3.5.0.GA/android/native/include/org.appcelerator.kroll.KrollModule.h:
 

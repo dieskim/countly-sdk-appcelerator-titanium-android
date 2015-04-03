@@ -167,8 +167,7 @@
  /Users/dieskim/Library/android-ndk-r9d/sources/cxx-stl/stlport/stlport/assert.h \
  /Users/dieskim/Library/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/../include/assert.h \
  /Users/dieskim/Library/Application\ Support/Titanium/mobilesdk/osx/3.5.0.GA/android/native/include/EventEmitter.h \
- /Users/dieskim/Library/Application\ Support/Titanium/mobilesdk/osx/3.5.0.GA/android/native/include/NativeObject.h \
- jni/count.ly.messaging.ExampleProxy.h
+ /Users/dieskim/Library/Application\ Support/Titanium/mobilesdk/osx/3.5.0.GA/android/native/include/NativeObject.h
 
 /Users/dieskim/Library/android-ndk-r9d/platforms/android-3/arch-arm/usr/include/jni.h:
 
@@ -507,5 +506,3 @@ jni/count.ly.messaging.TitaniumCountlyAndroidMessagingModule.h:
 /Users/dieskim/Library/Application\ Support/Titanium/mobilesdk/osx/3.5.0.GA/android/native/include/EventEmitter.h:
 
 /Users/dieskim/Library/Application\ Support/Titanium/mobilesdk/osx/3.5.0.GA/android/native/include/NativeObject.h:
-
-jni/count.ly.messaging.ExampleProxy.h:
