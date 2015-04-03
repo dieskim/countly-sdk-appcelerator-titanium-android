@@ -40,7 +40,14 @@ public class TitaniumCountlyAndroidMessagingModule extends KrollModule
 		// put module init code that needs to run when the application is created
 	}
 
-	// Methods
+	// Methods	
+		@Kroll.method
+		public void enableDebug() {
+			Log.d(LCAT, "Enable Debug called");
+			
+			Countly.sharedInstance().setLoggingEnabled(true);
+		}	
+	
 		@Kroll.method
 		public void start(String apiKey,String url) {
 			Log.d(LCAT, "Start called");
@@ -53,6 +60,7 @@ public class TitaniumCountlyAndroidMessagingModule extends KrollModule
 		
 		@Kroll.method
 		public void startMessagingTest(String apiKey,String url,String projectID) {
+			
 			Log.d(LCAT, "Start Messaging called");
 			
 			Countly.sharedInstance()

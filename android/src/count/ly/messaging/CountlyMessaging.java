@@ -138,8 +138,11 @@ public class CountlyMessaging extends WakefulBroadcastReceiver {
     }
 
     public static void storeConfiguration(Context context, String serverURL, String appKey, String deviceID, DeviceId.Type idMode) {
-        String label = context.getString(context.getApplicationInfo().labelRes);
-
+      
+    	String label = context.getString(context.getApplicationInfo().labelRes);
+    	
+    	Log.w(TAG, "App Info" + context.getApplicationInfo().labelRes);
+    	
         if (Countly.sharedInstance().isLoggingEnabled()) {
             Log.i(TAG, "Storing configuration: " + label + ", " + serverURL + ", " + appKey + ", " + deviceID + ", " + idMode);
         }

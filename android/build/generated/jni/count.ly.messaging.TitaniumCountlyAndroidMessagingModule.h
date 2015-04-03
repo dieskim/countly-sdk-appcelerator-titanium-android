@@ -34,6 +34,7 @@ private:
 	static v8::Handle<v8::Value> start(const v8::Arguments&);
 	static v8::Handle<v8::Value> event(const v8::Arguments&);
 	static v8::Handle<v8::Value> stopCount(const v8::Arguments&);
+	static v8::Handle<v8::Value> enableDebug(const v8::Arguments&);
 	static v8::Handle<v8::Value> example(const v8::Arguments&);
 	static v8::Handle<v8::Value> userData(const v8::Arguments&);
 

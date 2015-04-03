@@ -19,8 +19,7 @@
 	        <!-- END COUNT.LY PERMISSIONS SECTION-->
 	        <!-- START - Application SECTION -->
 	        <application>
-	        	<meta-data android:name="com.google.android.gms.version" android:value="7095000" />
-				
+	        	<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />				
 				<activity
 		            android:name="count.ly.messaging.ProxyActivity"
 		            android:label="@string/app_name" android:theme="@android:style/Theme.Translucent" android:noHistory="true"/>

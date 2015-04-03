@@ -91,7 +91,7 @@ public class Countly {
     private boolean enableLogging_;
     private Countly.CountlyMessagingMode messagingMode_;
     private Context context_;
-
+    
     /**
      * Returns the Countly singleton.
      */
