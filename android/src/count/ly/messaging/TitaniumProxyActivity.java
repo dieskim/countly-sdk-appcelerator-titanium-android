@@ -31,6 +31,7 @@ public class TitaniumProxyActivity extends Activity {
         super.onStart();
         
         Log.d(TAG, "TitaniumProxyActivity");
+        finish();
         
         Bundle extras = getIntent().getExtras();
         final Message msg = extras.getParcelable(CountlyMessaging.EXTRA_MESSAGE);
