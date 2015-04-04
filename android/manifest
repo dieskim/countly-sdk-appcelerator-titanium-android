@@ -6,9 +6,9 @@ version: 1.0.0
 apiversion: 2
 architectures: armeabi armeabi-v7a x86
 description: titanium-countly-android-messaging
-author: Your Name
-license: Specify your license
-copyright: Copyright (c) 2015 by Your Company
+author: Dieskim
+license: MIT
+copyright: Copyright (c) 2015 by Kiteplans.info
 
 # these should not be edited
 name: titanium-countly-android-messaging

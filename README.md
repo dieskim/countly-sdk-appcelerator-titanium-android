@@ -227,3 +227,11 @@ customUserData:customUserData,
 
 Countly.userData(args);
 ```
+
+## Author
+
+Author: Dieskim
+
+## License
+
+MIT as in License.txt
