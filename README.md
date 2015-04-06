@@ -82,6 +82,15 @@ Countly.startMessagingTest('COUNLY_APP_KEY','http://yourserver.com','GCM_PROJECT
 //Countly.startMessaging('COUNLY_APP_KEY','http://yourserver.com','GCM_PROJECT_ID');
 ```
 
+** Set App Name in AndroidManifest.xml
+*** If you receive the error below make sure to follow the [Titanium App Name Localization Guide](http://docs.appcelerator.com/titanium/3.0/#!/guide/Internationalization-section-29004892_Internationalization-AppNameLocalization) to android:label="@string/app_name" in your AndroidManifest.xml
+```
+[WARN] :   ResourceType: No package identifier when getting value for resource number 0x00000000
+
+[ERROR] :  MessagingAdapter: Couldn't store configuration in Countly Messaging
+```
+
+
 **Receive and Process push on Titanium side**
 ```
 // ADD EVENTLISTENTER AND FUNCTION TO MODULE

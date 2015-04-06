@@ -90,11 +90,11 @@ Handle<FunctionTemplate> TitaniumCountlyAndroidMessagingModule::getProxyTemplate
 
 	// Method bindings --------------------------------------------------------
 	DEFINE_PROTOTYPE_METHOD(proxyTemplate, "setLocation", TitaniumCountlyAndroidMessagingModule::setLocation);
-	DEFINE_PROTOTYPE_METHOD(proxyTemplate, "startMessaging", TitaniumCountlyAndroidMessagingModule::startMessaging);
-	DEFINE_PROTOTYPE_METHOD(proxyTemplate, "startMessagingTest", TitaniumCountlyAndroidMessagingModule::startMessagingTest);
 	DEFINE_PROTOTYPE_METHOD(proxyTemplate, "recordPushAction", TitaniumCountlyAndroidMessagingModule::recordPushAction);
+	DEFINE_PROTOTYPE_METHOD(proxyTemplate, "sendQueuedNotification", TitaniumCountlyAndroidMessagingModule::sendQueuedNotification);
+	DEFINE_PROTOTYPE_METHOD(proxyTemplate, "startMessagingTest", TitaniumCountlyAndroidMessagingModule::startMessagingTest);
+	DEFINE_PROTOTYPE_METHOD(proxyTemplate, "startMessaging", TitaniumCountlyAndroidMessagingModule::startMessaging);
 	DEFINE_PROTOTYPE_METHOD(proxyTemplate, "start", TitaniumCountlyAndroidMessagingModule::start);
-	DEFINE_PROTOTYPE_METHOD(proxyTemplate, "test", TitaniumCountlyAndroidMessagingModule::test);
 	DEFINE_PROTOTYPE_METHOD(proxyTemplate, "event", TitaniumCountlyAndroidMessagingModule::event);
 	DEFINE_PROTOTYPE_METHOD(proxyTemplate, "sendNotification", TitaniumCountlyAndroidMessagingModule::sendNotification);
 	DEFINE_PROTOTYPE_METHOD(proxyTemplate, "stopCount", TitaniumCountlyAndroidMessagingModule::stopCount);
@@ -196,9 +196,9 @@ Handle<Value> TitaniumCountlyAndroidMessagingModule::setLocation(const Arguments
 	return v8::Undefined();
 
 }
-Handle<Value> TitaniumCountlyAndroidMessagingModule::startMessaging(const Arguments& args)
+Handle<Value> TitaniumCountlyAndroidMessagingModule::recordPushAction(const Arguments& args)
 {
-	LOGD(TAG, "startMessaging()");
+	LOGD(TAG, "recordPushAction()");
 	HandleScope scope;
 
 	JNIEnv *env = titanium::JNIScope::getEnv();
@@ -207,9 +207,9 @@ Handle<Value> TitaniumCountlyAndroidMessagingModule::startMessaging(const Argume
 	}
 	static jmethodID methodID = NULL;
 	if (!methodID) {
-		methodID = env->GetMethodID(TitaniumCountlyAndroidMessagingModule::javaClass, "startMessaging", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
+		methodID = env->GetMethodID(TitaniumCountlyAndroidMessagingModule::javaClass, "recordPushAction", "(Ljava/lang/String;)V");
 		if (!methodID) {
-			const char *error = "Couldn't find proxy method 'startMessaging' with signature '(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V'";
+			const char *error = "Couldn't find proxy method 'recordPushAction' with signature '(Ljava/lang/String;)V'";
 			LOGE(TAG, error);
 				return titanium::JSException::Error(error);
 		}
@@ -217,13 +217,13 @@ Handle<Value> TitaniumCountlyAndroidMessagingModule::startMessaging(const Argume
 
 	titanium::Proxy* proxy = titanium::Proxy::unwrap(args.Holder());
 
-	if (args.Length() < 3) {
+	if (args.Length() < 1) {
 		char errorStringBuffer[100];
-		sprintf(errorStringBuffer, "startMessaging: Invalid number of arguments. Expected 3 but got %d", args.Length());
+		sprintf(errorStringBuffer, "recordPushAction: Invalid number of arguments. Expected 1 but got %d", args.Length());
 		return ThrowException(Exception::Error(String::New(errorStringBuffer)));
 	}
 
-	jvalue jArguments[3];
+	jvalue jArguments[1];
 
 
 
@@ -238,26 +238,6 @@ Handle<Value> TitaniumCountlyAndroidMessagingModule::startMessaging(const Argume
 		jArguments[0].l = NULL;
 	}
 
-	
-	
-	if (!args[1]->IsNull()) {
-		Local<Value> arg_1 = args[1];
-		jArguments[1].l =
-			titanium::TypeConverter::jsValueToJavaString(env, arg_1);
-	} else {
-		jArguments[1].l = NULL;
-	}
-
-	
-	
-	if (!args[2]->IsNull()) {
-		Local<Value> arg_2 = args[2];
-		jArguments[2].l =
-			titanium::TypeConverter::jsValueToJavaString(env, arg_2);
-	} else {
-		jArguments[2].l = NULL;
-	}
-
 	jobject javaProxy = proxy->getJavaObject();
 	env->CallVoidMethodA(javaProxy, methodID, jArguments);
 
@@ -270,10 +250,47 @@ Handle<Value> TitaniumCountlyAndroidMessagingModule::startMessaging(const Argume
 				env->DeleteLocalRef(jArguments[0].l);
 
 
-				env->DeleteLocalRef(jArguments[1].l);
+	if (env->ExceptionCheck()) {
+		titanium::JSException::fromJavaException();
+		env->ExceptionClear();
+	}
 
 
-				env->DeleteLocalRef(jArguments[2].l);
+
+
+	return v8::Undefined();
+
+}
+Handle<Value> TitaniumCountlyAndroidMessagingModule::sendQueuedNotification(const Arguments& args)
+{
+	LOGD(TAG, "sendQueuedNotification()");
+	HandleScope scope;
+
+	JNIEnv *env = titanium::JNIScope::getEnv();
+	if (!env) {
+		return titanium::JSException::GetJNIEnvironmentError();
+	}
+	static jmethodID methodID = NULL;
+	if (!methodID) {
+		methodID = env->GetMethodID(TitaniumCountlyAndroidMessagingModule::javaClass, "sendQueuedNotification", "()V");
+		if (!methodID) {
+			const char *error = "Couldn't find proxy method 'sendQueuedNotification' with signature '()V'";
+			LOGE(TAG, error);
+				return titanium::JSException::Error(error);
+		}
+	}
+
+	titanium::Proxy* proxy = titanium::Proxy::unwrap(args.Holder());
+
+	jvalue* jArguments = 0;
+
+	jobject javaProxy = proxy->getJavaObject();
+	env->CallVoidMethodA(javaProxy, methodID, jArguments);
+
+	if (!JavaObject::useGlobalRefs) {
+		env->DeleteLocalRef(javaProxy);
+	}
+
 
 
 	if (env->ExceptionCheck()) {
@@ -378,9 +395,9 @@ Handle<Value> TitaniumCountlyAndroidMessagingModule::startMessagingTest(const Ar
 	return v8::Undefined();
 
 }
-Handle<Value> TitaniumCountlyAndroidMessagingModule::recordPushAction(const Arguments& args)
+Handle<Value> TitaniumCountlyAndroidMessagingModule::startMessaging(const Arguments& args)
 {
-	LOGD(TAG, "recordPushAction()");
+	LOGD(TAG, "startMessaging()");
 	HandleScope scope;
 
 	JNIEnv *env = titanium::JNIScope::getEnv();
@@ -389,9 +406,9 @@ Handle<Value> TitaniumCountlyAndroidMessagingModule::recordPushAction(const Argu
 	}
 	static jmethodID methodID = NULL;
 	if (!methodID) {
-		methodID = env->GetMethodID(TitaniumCountlyAndroidMessagingModule::javaClass, "recordPushAction", "(Ljava/lang/String;)V");
+		methodID = env->GetMethodID(TitaniumCountlyAndroidMessagingModule::javaClass, "startMessaging", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
 		if (!methodID) {
-			const char *error = "Couldn't find proxy method 'recordPushAction' with signature '(Ljava/lang/String;)V'";
+			const char *error = "Couldn't find proxy method 'startMessaging' with signature '(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V'";
 			LOGE(TAG, error);
 				return titanium::JSException::Error(error);
 		}
@@ -399,13 +416,13 @@ Handle<Value> TitaniumCountlyAndroidMessagingModule::recordPushAction(const Argu
 
 	titanium::Proxy* proxy = titanium::Proxy::unwrap(args.Holder());
 
-	if (args.Length() < 1) {
+	if (args.Length() < 3) {
 		char errorStringBuffer[100];
-		sprintf(errorStringBuffer, "recordPushAction: Invalid number of arguments. Expected 1 but got %d", args.Length());
+		sprintf(errorStringBuffer, "startMessaging: Invalid number of arguments. Expected 3 but got %d", args.Length());
 		return ThrowException(Exception::Error(String::New(errorStringBuffer)));
 	}
 
-	jvalue jArguments[1];
+	jvalue jArguments[3];
 
 
 
@@ -420,6 +437,26 @@ Handle<Value> TitaniumCountlyAndroidMessagingModule::recordPushAction(const Argu
 		jArguments[0].l = NULL;
 	}
 
+	
+	
+	if (!args[1]->IsNull()) {
+		Local<Value> arg_1 = args[1];
+		jArguments[1].l =
+			titanium::TypeConverter::jsValueToJavaString(env, arg_1);
+	} else {
+		jArguments[1].l = NULL;
+	}
+
+	
+	
+	if (!args[2]->IsNull()) {
+		Local<Value> arg_2 = args[2];
+		jArguments[2].l =
+			titanium::TypeConverter::jsValueToJavaString(env, arg_2);
+	} else {
+		jArguments[2].l = NULL;
+	}
+
 	jobject javaProxy = proxy->getJavaObject();
 	env->CallVoidMethodA(javaProxy, methodID, jArguments);
 
@@ -430,6 +467,12 @@ Handle<Value> TitaniumCountlyAndroidMessagingModule::recordPushAction(const Argu
 
 
 				env->DeleteLocalRef(jArguments[0].l);
+
+
+				env->DeleteLocalRef(jArguments[1].l);
+
+
+				env->DeleteLocalRef(jArguments[2].l);
 
 
 	if (env->ExceptionCheck()) {
@@ -508,49 +551,6 @@ Handle<Value> TitaniumCountlyAndroidMessagingModule::start(const Arguments& args
 
 
 				env->DeleteLocalRef(jArguments[1].l);
-
-
-	if (env->ExceptionCheck()) {
-		titanium::JSException::fromJavaException();
-		env->ExceptionClear();
-	}
-
-
-
-
-	return v8::Undefined();
-
-}
-Handle<Value> TitaniumCountlyAndroidMessagingModule::test(const Arguments& args)
-{
-	LOGD(TAG, "test()");
-	HandleScope scope;
-
-	JNIEnv *env = titanium::JNIScope::getEnv();
-	if (!env) {
-		return titanium::JSException::GetJNIEnvironmentError();
-	}
-	static jmethodID methodID = NULL;
-	if (!methodID) {
-		methodID = env->GetMethodID(TitaniumCountlyAndroidMessagingModule::javaClass, "test", "()V");
-		if (!methodID) {
-			const char *error = "Couldn't find proxy method 'test' with signature '()V'";
-			LOGE(TAG, error);
-				return titanium::JSException::Error(error);
-		}
-	}
-
-	titanium::Proxy* proxy = titanium::Proxy::unwrap(args.Holder());
-
-	jvalue* jArguments = 0;
-
-	jobject javaProxy = proxy->getJavaObject();
-	env->CallVoidMethodA(javaProxy, methodID, jArguments);
-
-	if (!JavaObject::useGlobalRefs) {
-		env->DeleteLocalRef(javaProxy);
-	}
-
 
 
 	if (env->ExceptionCheck()) {

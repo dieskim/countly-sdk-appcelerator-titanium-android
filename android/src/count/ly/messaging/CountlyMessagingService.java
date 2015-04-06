@@ -5,6 +5,7 @@ import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -23,10 +24,11 @@ import count.ly.messaging.Countly;
 * Created by artem on 14/10/14.
 */
 public class CountlyMessagingService extends IntentService {
-    public static final String TAG = "CountlyMessagingService";
-
+    public static final String TAG = "CountlyMessagingService";  
+    
     public CountlyMessagingService() {
         super(TAG);
+        Log.d(TAG, "Inside CountlyMessagingService");
     }
 
     @Override
@@ -42,7 +44,7 @@ public class CountlyMessagingService extends IntentService {
 
                 if (msg.isValid()) {
                     if (Countly.sharedInstance().isLoggingEnabled()) {
-                        Log.i(TAG, "Got a message from Countly Messaging: " + msg);
+                        Log.d(TAG, "Got a message from Countly Messaging: " + msg);
                     }
 
                     // Send broadcast
@@ -61,10 +63,21 @@ public class CountlyMessagingService extends IntentService {
                     if (msg.isSilent()) {
                         CountlyMessaging.recordMessageOpen(msg.getId());
                     } else {
-                        // Go through proxy activity to be able to record message open & action performed events
-                        Intent proxy = new Intent(getApplicationContext(), TitaniumProxyActivity.class);
-                        proxy.putExtra(CountlyMessaging.EXTRA_MESSAGE, msg);
+                        // START REMOVE - BY DIESKIM
+                    	// // Go through proxy activity to be able to record message open & action performed events
+                        // Intent proxy = new Intent(getApplicationContext(), ProxyActivity.class);
+                    	// proxy.putExtra(CountlyMessaging.EXTRA_MESSAGE, msg);
+                        // notify(proxy);
+                    	// END REMOVE - BY DIESKIM
+                    	
+                    	// START ADDED - BY DIESKIM
+                    	Intent proxy = new Intent();
+                    	ComponentName comp = new ComponentName(getApplicationContext().getPackageName(), TitaniumProxyService.class.getName());
+                    	proxy.setComponent(comp);
+                    	proxy.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    	proxy.putExtra(CountlyMessaging.EXTRA_MESSAGE, msg);
                         notify(proxy);
+                        // END ADDED - BY DIESKIM                       
                     }
 
                 }
@@ -78,17 +91,37 @@ public class CountlyMessagingService extends IntentService {
         Message msg = proxy.getParcelableExtra(CountlyMessaging.EXTRA_MESSAGE);
 
         if (isAppInForeground(this)) {
-            // Go with dialog
-            proxy.putExtra(CountlyMessaging.NOTIFICATION_SHOW_DIALOG, true);
-            proxy.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(proxy);
+        	// START REMOVE - BY DIESKIM
+        	// // Go with dialog
+            // proxy.putExtra(CountlyMessaging.NOTIFICATION_SHOW_DIALOG, true);
+            // proxy.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            // startActivity(proxy);
+        	// END REMOVE - BY DIESKIM
+        	
+        	// START ADDED - BY DIESKIM
+        	// Set TitaniumCountlyAndroidMessagingModule.message
+            TitaniumCountlyAndroidMessagingModule.message = msg;
+    		
+         	// Process callback to open Notification in Application
+            TitaniumCountlyAndroidMessagingModule.processPushCallBack();
+        	// END ADDED - BY DIESKIM
+            
         } else {
-            // Notification case
-            CountlyMessaging.recordMessageOpen(msg.getId());
+           
+            // START REMOVE - BY DIESKIM
+        	// // Notification case
+            // CountlyMessaging.recordMessageOpen(msg.getId());
 
-            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, proxy, PendingIntent.FLAG_UPDATE_CURRENT);
-
+            // NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            
+            // PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, proxy, PendingIntent.FLAG_UPDATE_CURRENT);
+            // END REMOVE - BY DIESKIM
+            
+            // START ADD - BY DIESKIM
+        	NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            PendingIntent contentIntent = PendingIntent.getService(getApplicationContext(), 0, proxy, 0);
+            // END ADD - BY DIESKIM
+            
             // Get icon from application or use default one
             int icon;
             try {

@@ -20,9 +20,6 @@
 	        <!-- START - Application SECTION -->
 	        <application>
 	        	<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />				
-				<activity
-		            android:name="count.ly.messaging.TitaniumProxyActivity"
-		            android:label="@string/app_name" android:theme="@android:style/Theme.Translucent.NoTitleBar" android:noHistory="true"/>
 		        <receiver
 		            android:name="count.ly.messaging.CountlyMessaging"
 		            android:permission="com.google.android.c2dm.permission.SEND" >
@@ -33,12 +30,14 @@
 		        </receiver>
 		        <service android:name="count.ly.messaging.CountlyMessagingService" >
 		            <meta-data android:name="broadcast_action" android:value="ly.count.android.api.broadcast" />
+		        </service> 
+		        <service android:name="count.ly.messaging.TitaniumProxyService" >
 		        </service>    
 				<service android:name="org.openudid.OpenUDID_service">
 					<intent-filter>
 						<action android:name="org.openudid.GETUDID" />
 					</intent-filter>
-				</service>
+				</service>          
 			</application>
 	        <!-- END - Application SECTION -->
 		</manifest>	

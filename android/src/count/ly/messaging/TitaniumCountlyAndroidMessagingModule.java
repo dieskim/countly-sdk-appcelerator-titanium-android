@@ -10,6 +10,8 @@ package count.ly.messaging;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import org.appcelerator.kroll.KrollDict;
@@ -21,8 +23,18 @@ import org.appcelerator.titanium.TiApplication;
 import org.appcelerator.titanium.TiProperties;
 import org.appcelerator.kroll.common.Log;
 import org.appcelerator.kroll.common.TiConfig;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 
 @Kroll.module(name="TitaniumCountlyAndroidMessaging", id="count.ly.messaging")
@@ -79,7 +91,7 @@ public class TitaniumCountlyAndroidMessagingModule extends KrollModule
 			
 			Countly.sharedInstance()
 			.init(TiApplication.getAppCurrentActivity(),url, apiKey, null, DeviceId.Type.ADVERTISING_ID)
-			.initMessaging(TiApplication.getAppCurrentActivity(), null, projectID, Countly.CountlyMessagingMode.PRODUCTION);
+			.initMessaging(TiApplication.getAppCurrentActivity(), TiApplication.getAppRootOrCurrentActivity().getClass(), projectID, Countly.CountlyMessagingMode.PRODUCTION);
 			
 			Countly.sharedInstance().onStart();
 		}
@@ -91,9 +103,20 @@ public class TitaniumCountlyAndroidMessagingModule extends KrollModule
 			
 			Countly.sharedInstance()
 			.init(TiApplication.getAppCurrentActivity(),url, apiKey, null, DeviceId.Type.ADVERTISING_ID)
-			.initMessaging(TiApplication.getAppCurrentActivity(), null, projectID, Countly.CountlyMessagingMode.TEST);
+			.initMessaging(TiApplication.getAppCurrentActivity(), TiApplication.getAppRootOrCurrentActivity().getClass(), projectID, Countly.CountlyMessagingMode.TEST);
 			
 			Countly.sharedInstance().onStart();
+		}
+		
+		// Class to check for Listener Added
+		public void listenerAdded(String type, int count, KrollProxy proxy){
+			super.listenerAdded(type, count, proxy);
+			Log.i(LCAT, "listenerAdded");
+			try {
+				sendQueuedNotification();
+			} catch (JSONException e) {
+				Log.d(LCAT, "sendQueuedNotificationError");
+			}
 		}
 		
 		// Class to processCallBack on Module
@@ -142,14 +165,60 @@ public class TitaniumCountlyAndroidMessagingModule extends KrollModule
 				pushMessage.put("data", bundleToHashMap(message.getData()));			
 				
 				Log.d(LCAT, "pushMessage" + pushMessage);
-		        // fireEvent pushCallBack with payload evt
+		        
+				// fireEvent pushCallBack with payload evt
 		        fireEvent("receivePush", pushMessage); 
-		       	     			
+		       	
+		        // Clear TiProperties
+		     	TiProperties appProperties = TiApplication.getInstance().getAppProperties();
+		     	appProperties.setString("pushMessage", "");
+		     	
 			}else{
 				// Log No Listener
 				Log.d(LCAT, "No Listener receivePush found");
 			}
 		}	
+		
+		@Kroll.method
+		public void sendQueuedNotification() throws JSONException {
+				
+			Log.i(LCAT, "Send Queued Notification Start");
+			// Check if Module has Listeners 
+			if (hasListeners("receivePush")) {
+				// Log Listeners Found
+				Log.i(LCAT, "Has Listener: receivePush");
+					
+				// Get TiProperties
+				TiProperties appProperties = TiApplication.getInstance().getAppProperties();
+				String pushMessageString = appProperties.getString("pushMessage", "");
+				
+				Log.i(LCAT, "pushMessage" + pushMessageString);
+				
+				// Check that Payloads is not null and has content
+				if (pushMessageString != null && !pushMessageString.isEmpty()){
+				    // Log Payload has content
+				    Log.i(LCAT, "pushMessage Has Content");		    					
+					
+				    // convert jsonString pushMessageString to hashMap pushMessage
+				    HashMap<String,String> pushMessage = jsonToHashMap(pushMessageString);
+					Log.i(LCAT, "pushMessage Content: " + pushMessage);
+				    
+					// fireEvent pushCallBack with payload evt
+				    fireEvent("receivePush", pushMessage);
+				        
+				    // Clear TiProperties
+				    appProperties.setString("pushMessage",  "");
+				        
+				}else{
+				    // Log Payload null do nothing
+				    Log.i(LCAT, "No qued pushMessage");
+				}
+				    
+			}else{
+				// Log No Listener
+				Log.d(LCAT, "No Listener pushCallBack found");
+			}
+	}	
 		
 		@Kroll.method
 		public void recordPushAction(String messageId) {
@@ -288,5 +357,36 @@ public class TitaniumCountlyAndroidMessagingModule extends KrollModule
 			}
 			return hash;
 		}
+		
+		private static HashMap<String, String> jsonToHashMap(String t) throws JSONException {
+
+	        HashMap<String, String> map = new HashMap<String, String>();
+	        JSONObject jObject = new JSONObject(t);
+	        Iterator<?> keys = jObject.keys();
+
+	        while( keys.hasNext() ){
+	            String key = (String)keys.next();
+	            String value = jObject.getString(key); 
+	            map.put(key, value);
+
+	        }
+
+	        return map;
+	    }
+		
+		private static boolean isAppInForeground (Context context) {
+	        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+	        List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
+	        if (appProcesses == null) {
+	            return false;
+	        }
+	        final String packageName = context.getPackageName();
+	        for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
+	            if (appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND && appProcess.processName.equals(packageName)) {
+	                return true;
+	            }
+	        }
+	        return false;
+	    }
 }
 
