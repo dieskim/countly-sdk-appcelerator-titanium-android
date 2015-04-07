@@ -46,7 +46,7 @@ public class CountlyMessagingService extends IntentService {
                     if (Countly.sharedInstance().isLoggingEnabled()) {
                         Log.d(TAG, "Got a message from Countly Messaging: " + msg);
                     }
-
+                                       
                     // Send broadcast
                     Intent broadcast = new Intent(CountlyMessaging.getBroadcastAction(getApplicationContext()));
                     broadcast.putExtra(CountlyMessaging.BROADCAST_RECEIVER_ACTION_MESSAGE, msg);
@@ -104,6 +104,9 @@ public class CountlyMessagingService extends IntentService {
     		
          	// Process callback to open Notification in Application
             TitaniumCountlyAndroidMessagingModule.processPushCallBack();
+            
+            // Notification case
+            CountlyMessaging.recordMessageOpen(msg.getId());
         	// END ADDED - BY DIESKIM
             
         } else {
@@ -119,7 +122,7 @@ public class CountlyMessagingService extends IntentService {
             
             // START ADD - BY DIESKIM
         	NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            PendingIntent contentIntent = PendingIntent.getService(getApplicationContext(), 0, proxy, 0);
+            PendingIntent contentIntent = PendingIntent.getService(getApplicationContext(), 0, proxy, PendingIntent.FLAG_UPDATE_CURRENT);
             // END ADD - BY DIESKIM
             
             // Get icon from application or use default one

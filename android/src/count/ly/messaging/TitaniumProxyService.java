@@ -44,33 +44,33 @@ public class TitaniumProxyService extends IntentService {
     	
         if (!extras.isEmpty()) {
         	// get msg from extras bundle
-        	final Message msg = extras.getParcelable(CountlyMessaging.EXTRA_MESSAGE);
+        	Message intentMessage = extras.getParcelable(CountlyMessaging.EXTRA_MESSAGE);
         	
-            if (msg.isValid()) {
-            	Log.d(TAG, "Got a message from intent: " + msg);
+            if (intentMessage.isValid()) {
+            	Log.d(TAG, "Got a message from intent: " + intentMessage);
             	
             	// mark message open
-            	CountlyMessaging.recordMessageOpen(msg.getId());
+            	CountlyMessaging.recordMessageOpen(intentMessage.getId());
             	
             	// Create HashMap of Notification info and add data
 				HashMap pushMessage = new HashMap();
-				pushMessage.put("id", msg.getId());
-				pushMessage.put("message", msg.getNotificationMessage());
+				pushMessage.put("id", intentMessage.getId());
+				pushMessage.put("message", intentMessage.getNotificationMessage());
 				
-				if (msg.hasLink()){
+				if (intentMessage.hasLink()){
 					pushMessage.put("type", "hasLink");
-					pushMessage.put("link", msg.getLink());
-				}else if (msg.hasReview()){
+					pushMessage.put("link", intentMessage.getLink());
+				}else if (intentMessage.hasReview()){
 					pushMessage.put("type", "hasReview");
-				}else if (msg.hasMessage()) {
+				}else if (intentMessage.hasMessage()) {
 					pushMessage.put("type", "hasMessage");
 				}
 				
-				if (msg.hasSoundUri()){
-					pushMessage.put("sound", msg.getSoundUri());
+				if (intentMessage.hasSoundUri()){
+					pushMessage.put("sound", intentMessage.getSoundUri());
 				}
 				
-				pushMessage.put("data", bundleToHashMap(msg.getData()));						
+				pushMessage.put("data", bundleToHashMap(intentMessage.getData()));						
 				
 				// log pushMessage HashMap
 				Log.d(TAG, "pushMessage HashMap: " + pushMessage);
@@ -88,7 +88,7 @@ public class TitaniumProxyService extends IntentService {
 				getApplicationContext().startActivity(launch);	
 				
 				// Set TitaniumCountlyAndroidMessagingModule.message
-	            TitaniumCountlyAndroidMessagingModule.message = msg;
+	            TitaniumCountlyAndroidMessagingModule.message = intentMessage;
 	            
 				// Process callback to open Notification in Application 
 	            // if application was just in background this will process the notification
