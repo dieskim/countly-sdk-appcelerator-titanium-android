@@ -31,10 +31,10 @@ public:
 private:
 	// Methods -----------------------------------------------------------
 	static v8::Handle<v8::Value> setLocation(const v8::Arguments&);
-	static v8::Handle<v8::Value> recordPushAction(const v8::Arguments&);
-	static v8::Handle<v8::Value> sendQueuedNotification(const v8::Arguments&);
-	static v8::Handle<v8::Value> startMessagingTest(const v8::Arguments&);
 	static v8::Handle<v8::Value> startMessaging(const v8::Arguments&);
+	static v8::Handle<v8::Value> startMessagingTest(const v8::Arguments&);
+	static v8::Handle<v8::Value> sendQueuedNotification(const v8::Arguments&);
+	static v8::Handle<v8::Value> recordPushAction(const v8::Arguments&);
 	static v8::Handle<v8::Value> start(const v8::Arguments&);
 	static v8::Handle<v8::Value> event(const v8::Arguments&);
 	static v8::Handle<v8::Value> sendNotification(const v8::Arguments&);

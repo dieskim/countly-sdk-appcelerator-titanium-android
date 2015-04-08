@@ -25,7 +25,7 @@
 		            android:permission="com.google.android.c2dm.permission.SEND" >
 		            <intent-filter>
 		                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-		                <category android:name="ly.count.android.api" />
+		                <category android:name="${tiapp.properties['id']}" />
 		            </intent-filter>
 		        </receiver>
 		        <service android:name="count.ly.messaging.CountlyMessagingService" >

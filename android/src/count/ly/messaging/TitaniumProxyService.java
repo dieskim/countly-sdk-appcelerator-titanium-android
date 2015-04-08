@@ -113,7 +113,11 @@ public class TitaniumProxyService extends IntentService {
 		HashMap<String, String> hash = new HashMap<String, String>();
 		Set<String> keys = bundle.keySet();
 		for (String key : keys) {		    	    	
-		    	hash.put(key, bundle.get(key).toString());
+			String value = bundle.get(key).toString();	
+			if (value == null || value.isEmpty()){
+				value = "null";
+			}
+			hash.put(key, value);
 		}
 		return hash;
 	}
