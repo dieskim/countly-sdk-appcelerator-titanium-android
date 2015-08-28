@@ -10,6 +10,7 @@ package count.ly.messaging;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -248,6 +249,101 @@ public class TitaniumCountlyAndroidMessagingModule extends KrollModule
 
 		
 		@Kroll.method
+		public void startCrashReporting() {
+			Log.d(LCAT, "startCrashReporting");
+			
+			Countly.sharedInstance().enableCrashReporting();
+
+		}	
+		
+		@Kroll.method
+		public void startCrashReportingWithSegments(HashMap segments) {
+			Log.d(LCAT, "startCrashReportingWithSegments");
+			
+			// enableCrashReporting 
+			Countly.sharedInstance().enableCrashReporting();
+			
+			// set setCustomCrashSegments
+			Countly.sharedInstance().setCustomCrashSegments(segments);
+			
+		}	
+		
+		@Kroll.method
+		public void recordUncaughtException(HashMap args) {
+			Log.d(LCAT, "recordUncaughtException");
+			
+			String exception = printMap(args);
+			
+			Log.d(LCAT, exception);
+			
+			// run logJavascriptFatalException
+			Countly.sharedInstance().logJavascriptFatalException(exception);
+			
+		}
+		
+		@Kroll.method
+		public void recordHandledException(HashMap args) {
+			Log.d(LCAT, "recordHandledException");
+					
+			String exception = printMap(args);
+			
+			Log.d(LCAT, exception);
+			
+			// run logJavascriptNonFatalException
+			Countly.sharedInstance().logJavascriptNonFatalException(exception);
+			
+		}
+
+		@Kroll.method
+		public void addCrashLog(HashMap crashLogMap) {
+			Log.i(LCAT, "addCrashLog");
+
+			String crashLog = printMap(crashLogMap);
+			
+			// run logJavascriptFatalException
+			Countly.sharedInstance().addCrashLog(crashLog);
+			
+		}
+		
+		public void stackOverflow() {
+		        this.stackOverflow();
+
+		}
+		 
+		@Kroll.method
+		public void crashTest(int crashNumber) {
+			
+			if (crashNumber == 1){
+				Log.i(LCAT, "Running crashTest 1");			
+				
+				stackOverflow();
+				
+			}else if (crashNumber == 2){
+				
+				Log.i(LCAT, "Running crashTest 2");
+				
+				int test = 10/0;
+			
+			}else if (crashNumber == 3){
+				
+				Log.i(LCAT, "Running crashTest 3");
+				
+				while (true) {
+					Object[] o = null;
+					while (true) { o = new Object[] { o }; }
+				}
+				
+			}else{
+				
+				Log.i(LCAT, "Running crashTest 4");
+				
+				throw new RuntimeException("This is a crash");
+			}
+		
+
+		}	
+		
+		@Kroll.method
 		public void event(KrollDict args) {
 			Log.d(LCAT, "Event Send called");
 			
@@ -345,6 +441,16 @@ public class TitaniumCountlyAndroidMessagingModule extends KrollModule
 			StringBuilder sb = new StringBuilder();
 			for (String key : bundle.keySet()) {
 					sb.append("\nkey:" + key + ", value:" + bundle.getString(key));
+			}
+			return sb.toString();
+		}
+		
+		public static String printMap(Map mp) {
+			StringBuilder sb = new StringBuilder();
+			Iterator it = mp.entrySet().iterator();
+			while(it.hasNext()){
+				Map.Entry pair = (Map.Entry)it.next();
+				sb.append(pair.getKey() + " = " + pair.getValue() + " ");
 			}
 			return sb.toString();
 		}

@@ -30,17 +30,23 @@ public:
 
 private:
 	// Methods -----------------------------------------------------------
-	static v8::Handle<v8::Value> setLocation(const v8::Arguments&);
-	static v8::Handle<v8::Value> startMessaging(const v8::Arguments&);
-	static v8::Handle<v8::Value> startMessagingTest(const v8::Arguments&);
+	static v8::Handle<v8::Value> startCrashReporting(const v8::Arguments&);
 	static v8::Handle<v8::Value> sendQueuedNotification(const v8::Arguments&);
-	static v8::Handle<v8::Value> recordPushAction(const v8::Arguments&);
-	static v8::Handle<v8::Value> start(const v8::Arguments&);
-	static v8::Handle<v8::Value> event(const v8::Arguments&);
+	static v8::Handle<v8::Value> startMessagingTest(const v8::Arguments&);
 	static v8::Handle<v8::Value> sendNotification(const v8::Arguments&);
 	static v8::Handle<v8::Value> stopCount(const v8::Arguments&);
-	static v8::Handle<v8::Value> enableDebug(const v8::Arguments&);
 	static v8::Handle<v8::Value> userData(const v8::Arguments&);
+	static v8::Handle<v8::Value> addCrashLog(const v8::Arguments&);
+	static v8::Handle<v8::Value> startCrashReportingWithSegments(const v8::Arguments&);
+	static v8::Handle<v8::Value> setLocation(const v8::Arguments&);
+	static v8::Handle<v8::Value> recordPushAction(const v8::Arguments&);
+	static v8::Handle<v8::Value> startMessaging(const v8::Arguments&);
+	static v8::Handle<v8::Value> start(const v8::Arguments&);
+	static v8::Handle<v8::Value> event(const v8::Arguments&);
+	static v8::Handle<v8::Value> recordHandledException(const v8::Arguments&);
+	static v8::Handle<v8::Value> recordUncaughtException(const v8::Arguments&);
+	static v8::Handle<v8::Value> enableDebug(const v8::Arguments&);
+	static v8::Handle<v8::Value> crashTest(const v8::Arguments&);
 
 	// Dynamic property accessors ----------------------------------------
 

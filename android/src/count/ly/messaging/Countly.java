@@ -23,11 +23,13 @@ package count.ly.messaging;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Bundle;
 import android.util.Log;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -43,7 +45,7 @@ public class Countly {
     /**
      * Current version of the Count.ly Android SDK as a displayable string.
      */
-    public static final String COUNTLY_SDK_VERSION_STRING = "14.12";
+    public static final String COUNTLY_SDK_VERSION_STRING = "15.06";
     /**
      * Default string used in the begin session metrics if the
      * app version cannot be found.
@@ -63,6 +65,8 @@ public class Countly {
      * How often onTimer() is called.
      */
     private static final long TIMER_DELAY_IN_SECONDS = 60;
+
+    protected static List<String> publicKeyPinCertificates;
 
     /**
      * Enum used in Countly.initMessaging() method which controls what kind of
@@ -91,7 +95,7 @@ public class Countly {
     private boolean enableLogging_;
     private Countly.CountlyMessagingMode messagingMode_;
     private Context context_;
-    
+
     /**
      * Returns the Countly singleton.
      */
@@ -262,6 +266,11 @@ public class Countly {
             }
         }
         messagingMode_ = mode;
+
+        if (MessagingAdapter.isMessagingAvailable()) {
+            MessagingAdapter.storeConfiguration(connectionQueue_.getContext(), connectionQueue_.getServerURL(), connectionQueue_.getAppKey(), connectionQueue_.getDeviceId().getId(), connectionQueue_.getDeviceId().getType());
+        }
+
         return this;
     }
 
@@ -312,6 +321,8 @@ public class Countly {
             connectionQueue_.sendReferrerData(referrer);
             ReferrerReceiver.deleteReferrer(context_);
         }
+
+        CrashDetails.inForeground();
     }
 
     /**
@@ -343,6 +354,8 @@ public class Countly {
         if (activityCount_ == 0) {
             onStopHelper();
         }
+
+        CrashDetails.inBackground();
     }
 
     /**
@@ -478,8 +491,8 @@ public class Countly {
      * </ul>
      * @param data Map&lt;String, String&gt; with user data
      */
-    public synchronized void setUserData(Map<String, String> data) {
-        setUserData(data, null);
+    public synchronized Countly setUserData(Map<String, String> data) {
+        return setUserData(data, null);
     }
 
     /**
@@ -518,11 +531,12 @@ public class Countly {
      * @param data Map&lt;String, String&gt; with user data
      * @param customdata Map&lt;String, String&gt; with custom key values for this user
      */
-    public synchronized void setUserData(Map<String, String> data, Map<String, String> customdata) {
+    public synchronized Countly setUserData(Map<String, String> data, Map<String, String> customdata) {
         UserData.setData(data);
         if(customdata != null)
             UserData.setCustomData(customdata);
         connectionQueue_.sendUserData();
+        return this;
     }
 
     /**
@@ -530,10 +544,11 @@ public class Countly {
      * In custom properties you can provide any string key values to be stored with user
      * @param customdata Map&lt;String, String&gt; with custom key values for this user
      */
-    public synchronized void setCustomUserData(Map<String, String> customdata) {
+    public synchronized Countly setCustomUserData(Map<String, String> customdata) {
         if(customdata != null)
             UserData.setCustomData(customdata);
         connectionQueue_.sendUserData();
+        return this;
     }
 
     /**
@@ -553,6 +568,84 @@ public class Countly {
             connectionQueue_.updateSession(roundedSecondsSinceLastSessionDurationUpdate());
         }
 
+        return this;
+    }
+
+    /**
+     * Sets custom segments to be reported with crash reports
+     * In custom segments you can provide any string key values to segments crashes by
+     * @param segments Map&lt;String, String&gt; key segments and their values
+     */
+    public synchronized Countly setCustomCrashSegments(Map<String, String> segments) {
+        if(segments != null)
+            CrashDetails.setCustomSegments(segments);
+        return this;
+    }
+
+    /**
+     * Add crash breadcrumb like log record to the log that will be send together with crash report
+     * @param record String a bread crumb for the crash report
+     */
+    public synchronized Countly addCrashLog(String record) {
+        CrashDetails.addLog(record);
+        return this;
+    }
+
+    /**
+     * Log handled exception to report it to server as non fatal crash
+     * @param exception Exception to log
+     */
+    public synchronized Countly logException(Exception exception) {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        exception.printStackTrace(pw);
+        connectionQueue_.sendCrashReport(sw.toString(), true);
+        return this;
+    }
+    
+    /**
+     * Log Javascript unhandled exception to report it to server as fatal crash
+     * @param string Exception to log
+     */
+    public synchronized Countly logJavascriptFatalException(String exception) {  
+        connectionQueue_.sendCrashReport(exception, false);
+        return this;
+    }
+    
+    /**
+     * Log Javascript handled exception to report it to server as non fatal crash
+     * @param string Exception to log
+     */
+    public synchronized Countly logJavascriptNonFatalException(String exception) {  
+        connectionQueue_.sendCrashReport(exception, true);
+        return this;
+    }
+    
+    /**
+     * Enable crash reporting to send unhandled crash reports to server
+     */
+    public synchronized Countly enableCrashReporting() {
+        //get default handler
+        final Thread.UncaughtExceptionHandler oldHandler = Thread.getDefaultUncaughtExceptionHandler();
+
+        Thread.UncaughtExceptionHandler handler = new Thread.UncaughtExceptionHandler() {
+
+            @Override
+            public void uncaughtException(Thread t, Throwable e) {
+                StringWriter sw = new StringWriter();
+                PrintWriter pw = new PrintWriter(sw);
+                e.printStackTrace(pw);
+                connectionQueue_.sendCrashReport(sw.toString(), false);
+
+                //if there was another handler before
+                if(oldHandler != null){
+                    //notify it also
+                    oldHandler.uncaughtException(t,e);
+                }
+            }
+        };
+
+        Thread.setDefaultUncaughtExceptionHandler(handler);
         return this;
     }
 
@@ -640,6 +733,19 @@ public class Countly {
             }
         }
         return validURL;
+    }
+
+    /**
+     * Allows public key pinning.
+     * Supply list of SSL certificates (base64-encoded strings between "-----BEGIN CERTIFICATE-----" and "-----END CERTIFICATE-----" without end-of-line)
+     * along with server URL starting with "https://". Countly will only accept connections to the server
+     * if public key of SSL certificate provided by the server matches one provided to this method.
+     * @param certificates List of SSL certificates
+     * @return Countly instance
+     */
+    public static Countly enablePublicKeyPinning(List<String> certificates) {
+        publicKeyPinCertificates = certificates;
+        return Countly.sharedInstance();
     }
 
     // for unit testing
