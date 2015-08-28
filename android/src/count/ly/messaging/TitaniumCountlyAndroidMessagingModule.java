@@ -183,26 +183,26 @@ public class TitaniumCountlyAndroidMessagingModule extends KrollModule
 		@Kroll.method
 		public void sendQueuedNotification() throws JSONException {
 				
-			Log.i(LCAT, "Send Queued Notification Start");
+			Log.d(LCAT, "Send Queued Notification Start");
 			// Check if Module has Listeners 
 			if (hasListeners("receivePush")) {
 				// Log Listeners Found
-				Log.i(LCAT, "Has Listener: receivePush");
+				Log.d(LCAT, "Has Listener: receivePush");
 					
 				// Get TiProperties
 				TiProperties appProperties = TiApplication.getInstance().getAppProperties();
 				String pushMessageString = appProperties.getString("pushMessage", "");
 				
-				Log.i(LCAT, "pushMessage" + pushMessageString);
+				Log.d(LCAT, "pushMessage" + pushMessageString);
 				
 				// Check that Payloads is not null and has content
 				if (pushMessageString != null && !pushMessageString.isEmpty()){
 				    // Log Payload has content
-				    Log.i(LCAT, "pushMessage Has Content");		    					
+				    Log.d(LCAT, "pushMessage Has Content");		    					
 					
 				    // convert jsonString pushMessageString to hashMap pushMessage
 				    HashMap<String,String> pushMessage = jsonToHashMap(pushMessageString);
-					Log.i(LCAT, "pushMessage Content: " + pushMessage);
+					Log.d(LCAT, "pushMessage Content: " + pushMessage);
 				    
 					// fireEvent pushCallBack with payload evt
 				    fireEvent("receivePush", pushMessage);
@@ -212,7 +212,7 @@ public class TitaniumCountlyAndroidMessagingModule extends KrollModule
 				        
 				}else{
 				    // Log Payload null do nothing
-				    Log.i(LCAT, "No qued pushMessage");
+				    Log.d(LCAT, "No qued pushMessage");
 				}
 				    
 			}else{
@@ -296,7 +296,7 @@ public class TitaniumCountlyAndroidMessagingModule extends KrollModule
 
 		@Kroll.method
 		public void addCrashLog(HashMap crashLogMap) {
-			Log.i(LCAT, "addCrashLog");
+			Log.d(LCAT, "addCrashLog");
 
 			String crashLog = printMap(crashLogMap);
 			
@@ -314,19 +314,19 @@ public class TitaniumCountlyAndroidMessagingModule extends KrollModule
 		public void crashTest(int crashNumber) {
 			
 			if (crashNumber == 1){
-				Log.i(LCAT, "Running crashTest 1");			
+				Log.d(LCAT, "Running crashTest 1");			
 				
 				stackOverflow();
 				
 			}else if (crashNumber == 2){
 				
-				Log.i(LCAT, "Running crashTest 2");
+				Log.d(LCAT, "Running crashTest 2");
 				
 				int test = 10/0;
 			
 			}else if (crashNumber == 3){
 				
-				Log.i(LCAT, "Running crashTest 3");
+				Log.d(LCAT, "Running crashTest 3");
 				
 				while (true) {
 					Object[] o = null;
@@ -335,7 +335,7 @@ public class TitaniumCountlyAndroidMessagingModule extends KrollModule
 				
 			}else{
 				
-				Log.i(LCAT, "Running crashTest 4");
+				Log.d(LCAT, "Running crashTest 4");
 				
 				throw new RuntimeException("This is a crash");
 			}

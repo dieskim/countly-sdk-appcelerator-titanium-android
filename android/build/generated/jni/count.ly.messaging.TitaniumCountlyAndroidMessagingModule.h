@@ -44,8 +44,8 @@ private:
 	static v8::Handle<v8::Value> start(const v8::Arguments&);
 	static v8::Handle<v8::Value> event(const v8::Arguments&);
 	static v8::Handle<v8::Value> recordHandledException(const v8::Arguments&);
-	static v8::Handle<v8::Value> recordUncaughtException(const v8::Arguments&);
 	static v8::Handle<v8::Value> enableDebug(const v8::Arguments&);
+	static v8::Handle<v8::Value> recordUncaughtException(const v8::Arguments&);
 	static v8::Handle<v8::Value> crashTest(const v8::Arguments&);
 
 	// Dynamic property accessors ----------------------------------------
