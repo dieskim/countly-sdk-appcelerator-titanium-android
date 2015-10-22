@@ -137,13 +137,13 @@ if (pushType == "hasLink"){
 **START Countly with Messaging - DEVELOPMENT TEST**
 ```
 // START Countly with Messaging - DEVELOPMENT TEST
-Countly.startMessagingTest('COUNLY_APP_KEY','http://yourserver.com','GCM_PROJECT_ID');
+Countly.startMessagingTest('COUNLY_APP_KEY','http://yourserver.com','GCM_PROJECT_NUMBER');
 ```
 
 **START Countly with Messaging - PRODUCTION**
 ```
 // START Countly with Messaging - PRODUCTION
-Countly.startMessaging('COUNLY_APP_KEY','http://yourserver.com','GCM_PROJECT_ID');
+Countly.startMessaging('COUNLY_APP_KEY','http://yourserver.com','GCM_PROJECT_NUMBER');
 ```
 
 ### User Locations
