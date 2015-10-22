@@ -212,16 +212,16 @@ if (OS_ANDROID){
 if (OS_ANDROID){
 
 	// START Countly with Messaging - DEVELOPMENT TEST
-	Countly.startMessagingTest('1a0ea80f9fbd51f457f76adfa5a614e6fc9da024','http://e3host.com','1028701652126');
+	Countly.startMessagingTest('COUNLY_APP_KEY','http://yourserver.com','GCM_PROJECT_NUMBER');
 	
 	// START Countly with Messaging - PRODUCTION
-	//Countly.startMessaging('COUNLY_APP_KEY','http://yourserver.com','GCM_PROJECT_ID');
+	//Countly.startMessaging('COUNLY_APP_KEY','http://yourserver.com','GCM_PROJECT_NUMBER');
 
 }else{
 	
 	// START Countly with Messaging - DEVELOPMENT TEST
 	Countly.setMessagingDeveloperMode();    // setMessagingDeveloperMode
-	Countly.startMessagingTest('1a0ea80f9fbd51f457f76adfa5a614e6fc9da024','http://e3host.com');
+	Countly.startMessagingTest('COUNLY_APP_KEY','http://yourserver.com');
 	
 	//START Countly with Messaging - PRODUCTION
 	//Countly.startMessaging('YOUR_APP_KEY','http://yourserver.com');
