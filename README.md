@@ -330,6 +330,14 @@ Countly.crashTest(2);
 Countly.crashTest(4);
 ```
 
+### Get Countly Devide ID Used
+
+```
+// Countly getOUDID
+var countlyDeviceID = Countly.getOUDID();
+Ti.API.log("countlyDeviceID: " + countlyDeviceID);
+```
+
 ## Author
 
 Author: Dieskim of (Kiteplans.info)](https://www.kiteplans.info)

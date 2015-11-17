@@ -480,5 +480,14 @@ public class TitaniumCountlyAndroidMessagingModule extends KrollModule
 	        return map;
 	    }
 		
+		@Kroll.method
+		public String getOUDID() {
+			Log.d(LCAT, "Countly getOUDID");
+			
+			String OUDID = Countly.sharedInstance().getOUDID();
+			 
+			return OUDID;
+		}	
+		
 }
 

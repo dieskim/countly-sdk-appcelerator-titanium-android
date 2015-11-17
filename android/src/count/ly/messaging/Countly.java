@@ -747,7 +747,17 @@ public class Countly {
         publicKeyPinCertificates = certificates;
         return Countly.sharedInstance();
     }
-
+    
+    /**
+     * Get Device OUDID and return
+     */
+    public String getOUDID() {
+        
+    	String device_udid =  OpenUDIDAdapter.getOpenUDID();       
+        
+    	return device_udid;     
+    }
+    
     // for unit testing
     ConnectionQueue getConnectionQueue() { return connectionQueue_; }
     void setConnectionQueue(final ConnectionQueue connectionQueue) { connectionQueue_ = connectionQueue; }
@@ -759,3 +769,4 @@ public class Countly {
     int getActivityCount() { return activityCount_; }
     boolean getDisableUpdateSessionRequests() { return disableUpdateSessionRequests_; }
 }
+
