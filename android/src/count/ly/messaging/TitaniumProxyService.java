@@ -50,44 +50,44 @@ public class TitaniumProxyService extends IntentService {
             	Log.d(TAG, "Got a message from intent: " + intentMessage);
             	
             	
-            	// Create HashMap of Notification info and add data
-				HashMap pushMessage = new HashMap();
-				pushMessage.put("id", intentMessage.getId());
-				pushMessage.put("message", intentMessage.getNotificationMessage());
-				
-				if (intentMessage.hasLink()){
-					pushMessage.put("type", "hasLink");
-					pushMessage.put("link", intentMessage.getLink());
-				}else if (intentMessage.hasReview()){
-					pushMessage.put("type", "hasReview");
-				}else if (intentMessage.hasMessage()) {
-					pushMessage.put("type", "hasMessage");
-				}
-				
-				if (intentMessage.hasSoundUri()){
-					pushMessage.put("sound", intentMessage.getSoundUri());
-				}
-				
-				pushMessage.put("data", bundleToHashMap(intentMessage.getData()));						
-				
-				// log pushMessage HashMap
-				Log.d(TAG, "pushMessage HashMap: " + pushMessage);
-				
-				// Set pushMessage into TiProperties
-				TiProperties appProperties = TiApplication.getInstance().getAppProperties();
-				appProperties.setString("pushMessage", TiConvert.toJSONString(pushMessage));	 
-				
-				// Create the Intent to launch the App
-				Intent launch = getApplicationContext().getPackageManager().getLaunchIntentForPackage(getApplicationContext().getPackageName());
-				intent.addCategory("android.intent.category.LAUNCHER");
-				launch.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
-				
-				// Run Intent to Launch App
-				getApplicationContext().startActivity(launch);	
+            // Create HashMap of Notification info and add data
+			HashMap pushMessage = new HashMap();
+			pushMessage.put("id", intentMessage.getId());
+			pushMessage.put("message", intentMessage.getNotificationMessage());
+			
+			if (intentMessage.hasLink()){
+				pushMessage.put("type", "hasLink");
+				pushMessage.put("link", intentMessage.getLink());
+			}else if (intentMessage.hasReview()){
+				pushMessage.put("type", "hasReview");
+			}else if (intentMessage.hasMessage()) {
+				pushMessage.put("type", "hasMessage");
+			}
+			
+			if (intentMessage.hasSoundUri()){
+				pushMessage.put("sound", intentMessage.getSoundUri());
+			}
+			
+			pushMessage.put("data", bundleToHashMap(intentMessage.getData()));						
+			
+			// log pushMessage HashMap
+			Log.d(TAG, "pushMessage HashMap: " + pushMessage);
+			
+			// Set pushMessage into TiProperties
+			TiProperties appProperties = TiApplication.getInstance().getAppProperties();
+			appProperties.setString("pushMessage", TiConvert.toJSONString(pushMessage));	 
+			
+			// Create the Intent to launch the App
+			Intent launch = getApplicationContext().getPackageManager().getLaunchIntentForPackage(getApplicationContext().getPackageName());
+			intent.addCategory("android.intent.category.LAUNCHER");
+			launch.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+			
+			// Run Intent to Launch App
+			getApplicationContext().startActivity(launch);	
 
 
-				//Make sure we have countly initialized before recording the message event.
-				if (!Countly.sharedInstance().isInitialized()) {
+			//Make sure we have countly initialized before recording the message event.
+			if (!Countly.sharedInstance().isInitialized()) {
                     if (!CountlyMessaging.initCountly(getApplicationContext())) {
                         Log.e(TAG, "Cannot init Countly in background");
                     } else { 	
