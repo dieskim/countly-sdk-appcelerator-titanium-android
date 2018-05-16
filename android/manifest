@@ -2,9 +2,9 @@
 # this is your module manifest and used by Titanium
 # during compilation, packaging, distribution, etc.
 #
-version: 1.0.7
-apiversion: 2
-architectures: armeabi armeabi-v7a x86
+version: 2.0.0
+apiversion: 4
+architectures: arm64-v8a armeabi-v7a x86
 description: titanium-countly-android-messaging
 author: Dieskim
 license: MIT
@@ -15,4 +15,4 @@ name: titanium-countly-android-messaging
 moduleid: count.ly.messaging
 guid: b12b20bf-69c8-4cfa-9f06-a5dd789d651d
 platform: android
-minsdk: 3.5.1.GA
+minsdk: 7.1.1

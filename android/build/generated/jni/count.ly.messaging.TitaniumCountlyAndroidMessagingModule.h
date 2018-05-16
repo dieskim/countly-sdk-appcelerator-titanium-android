@@ -1,6 +1,6 @@
 /**
  * Appcelerator Titanium Mobile
- * Copyright (c) 2011-2013 by Appcelerator, Inc. All Rights Reserved.
+ * Copyright (c) 2011-2016 by Appcelerator, Inc. All Rights Reserved.
  * Licensed under the terms of the Apache Public License
  * Please see the LICENSE included with this distribution for details.
  */
@@ -11,47 +11,48 @@
 
 #include "Proxy.h"
 
-		namespace count {
-		namespace ly {
-		namespace messaging {
-
+namespace count {
+namespace ly {
+namespace messaging {
 
 class TitaniumCountlyAndroidMessagingModule : public titanium::Proxy
 {
 public:
-	explicit TitaniumCountlyAndroidMessagingModule(jobject javaObject);
+	explicit TitaniumCountlyAndroidMessagingModule();
 
-	static void bindProxy(v8::Handle<v8::Object> exports);
-	static v8::Handle<v8::FunctionTemplate> getProxyTemplate();
-	static void dispose();
+	static void bindProxy(v8::Local<v8::Object>, v8::Local<v8::Context>);
+	static v8::Local<v8::FunctionTemplate> getProxyTemplate(v8::Isolate*);
+	static void dispose(v8::Isolate*);
 
-	static v8::Persistent<v8::FunctionTemplate> proxyTemplate;
 	static jclass javaClass;
 
 private:
+	static v8::Persistent<v8::FunctionTemplate> proxyTemplate;
+
 	// Methods -----------------------------------------------------------
-	static v8::Handle<v8::Value> startCrashReporting(const v8::Arguments&);
-	static v8::Handle<v8::Value> sendQueuedNotification(const v8::Arguments&);
-	static v8::Handle<v8::Value> startMessagingTest(const v8::Arguments&);
-	static v8::Handle<v8::Value> sendNotification(const v8::Arguments&);
-	static v8::Handle<v8::Value> stopCount(const v8::Arguments&);
-	static v8::Handle<v8::Value> userData(const v8::Arguments&);
-	static v8::Handle<v8::Value> addCrashLog(const v8::Arguments&);
-	static v8::Handle<v8::Value> startCrashReportingWithSegments(const v8::Arguments&);
-	static v8::Handle<v8::Value> setLocation(const v8::Arguments&);
-	static v8::Handle<v8::Value> recordPushAction(const v8::Arguments&);
-	static v8::Handle<v8::Value> startMessaging(const v8::Arguments&);
-	static v8::Handle<v8::Value> start(const v8::Arguments&);
-	static v8::Handle<v8::Value> event(const v8::Arguments&);
-	static v8::Handle<v8::Value> recordHandledException(const v8::Arguments&);
-	static v8::Handle<v8::Value> enableDebug(const v8::Arguments&);
-	static v8::Handle<v8::Value> recordUncaughtException(const v8::Arguments&);
-	static v8::Handle<v8::Value> crashTest(const v8::Arguments&);
+	static void enableDebug(const v8::FunctionCallbackInfo<v8::Value>&);
+	static void startCrashReporting(const v8::FunctionCallbackInfo<v8::Value>&);
+	static void getOUDID(const v8::FunctionCallbackInfo<v8::Value>&);
+	static void userData(const v8::FunctionCallbackInfo<v8::Value>&);
+	static void startMessagingTest(const v8::FunctionCallbackInfo<v8::Value>&);
+	static void startCrashReportingWithSegments(const v8::FunctionCallbackInfo<v8::Value>&);
+	static void recordUncaughtException(const v8::FunctionCallbackInfo<v8::Value>&);
+	static void start(const v8::FunctionCallbackInfo<v8::Value>&);
+	static void recordPushAction(const v8::FunctionCallbackInfo<v8::Value>&);
+	static void sendNotification(const v8::FunctionCallbackInfo<v8::Value>&);
+	static void addCrashLog(const v8::FunctionCallbackInfo<v8::Value>&);
+	static void startMessaging(const v8::FunctionCallbackInfo<v8::Value>&);
+	static void crashTest(const v8::FunctionCallbackInfo<v8::Value>&);
+	static void stopCount(const v8::FunctionCallbackInfo<v8::Value>&);
+	static void recordHandledException(const v8::FunctionCallbackInfo<v8::Value>&);
+	static void setLocation(const v8::FunctionCallbackInfo<v8::Value>&);
+	static void event(const v8::FunctionCallbackInfo<v8::Value>&);
+	static void sendQueuedNotification(const v8::FunctionCallbackInfo<v8::Value>&);
 
 	// Dynamic property accessors ----------------------------------------
 
 };
 
-		} // messaging
-		} // ly
-		} // count
+} // messaging
+} // ly
+} // count

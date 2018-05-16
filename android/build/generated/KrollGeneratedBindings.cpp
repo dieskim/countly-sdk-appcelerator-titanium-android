@@ -1,74 +1,64 @@
-/* C++ code produced by gperf version 3.0.3 */
-/* Command-line: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/gperf -L C++ -E -t /private/var/folders/hc/19hq28_941d4h7wx_qj406vr0000gn/T/dieskim/titanium-countly-android-messaging-generated/KrollGeneratedBindings.gperf  */
-/* Computed positions: -k'' */
-
-#line 3 "/private/var/folders/hc/19hq28_941d4h7wx_qj406vr0000gn/T/dieskim/titanium-countly-android-messaging-generated/KrollGeneratedBindings.gperf"
-
-
-#include <string.h>
-#include <v8.h>
+/**
+ * Axway Appcelerator Titanium Mobile
+ * Copyright (c) 2017 by Axway. All Rights Reserved.
+ * Licensed under the terms of the Apache Public License
+ * Please see the LICENSE included with this distribution for details.
+ *
+ * Warning: This file is GENERATED, and should not be modified
+ */
+#include <unordered_map>
 #include <KrollBindings.h>
 
 #include "count.ly.messaging.TitaniumCountlyAndroidMessagingModule.h"
 
 
-#line 13 "/private/var/folders/hc/19hq28_941d4h7wx_qj406vr0000gn/T/dieskim/titanium-countly-android-messaging-generated/KrollGeneratedBindings.gperf"
-struct titanium::bindings::BindEntry;
-/* maximum key range = 1, duplicates = 0 */
+namespace titanium {
+	namespace bindings {
 
-class TitaniumCountlyAndroidMessagingBindings
-{
-private:
-  static inline unsigned int hash (const char *str, unsigned int len);
-public:
-  static struct titanium::bindings::BindEntry *lookupGeneratedInit (const char *str, unsigned int len);
-};
+		struct BindEntry;
+		
+		struct Hash {
+			// FNV-1a hashing algorithm
+			// http://www.isthe.com/chongo/tech/comp/fnv/index.html#FNV-1a
+			std::size_t operator()(const char* name) const {
+				std::size_t length = strlen(name);
+				std::size_t hash = 0x811C9DC5;
+				for (std::size_t i = 0; i < length; ++i) {
+					hash ^= name[i];
+					hash += (hash << 24) + (hash << 8) + (hash << 7) + (hash << 4) + (hash << 1);
+				}
+				return hash;
+			}
+		};
 
-inline /*ARGSUSED*/
-unsigned int
-TitaniumCountlyAndroidMessagingBindings::hash (register const char *str, register unsigned int len)
-{
-  return len;
+		struct Compare {
+			bool operator()(const char* a, const char* b) const {
+				return !strcmp(a, b);
+			}
+		};
+
+		class TitaniumCountlyAndroidMessagingBindings {
+			public:
+				static BindEntry* lookupGeneratedInit(const char*, unsigned int);
+		};
+
+		BindEntry* TitaniumCountlyAndroidMessagingBindings::lookupGeneratedInit(const char* name, unsigned int length) {
+			static BindEntry binds[] = {
+				{"count.ly.messaging.TitaniumCountlyAndroidMessagingModule", ::count::ly::messaging::TitaniumCountlyAndroidMessagingModule::bindProxy, ::count::ly::messaging::TitaniumCountlyAndroidMessagingModule::dispose}
+			};
+			static std::unordered_map<const char*, BindEntry&, Hash, Compare> map = {
+				{binds[0].name, binds[0]},
+			};
+
+			auto result = map.find(name);
+			while (result != map.end()) {
+				// fallback in case of very unlikely collision
+				if (!strcmp(name, result->second.name)) {
+					return &result->second;
+				}
+				result++;
+			}
+			return nullptr;
+		}
+	}
 }
-
-struct titanium::bindings::BindEntry *
-TitaniumCountlyAndroidMessagingBindings::lookupGeneratedInit (register const char *str, register unsigned int len)
-{
-  enum
-    {
-      TOTAL_KEYWORDS = 1,
-      MIN_WORD_LENGTH = 56,
-      MAX_WORD_LENGTH = 56,
-      MIN_HASH_VALUE = 56,
-      MAX_HASH_VALUE = 56
-    };
-
-  static struct titanium::bindings::BindEntry wordlist[] =
-    {
-      {""}, {""}, {""}, {""}, {""}, {""}, {""}, {""}, {""},
-      {""}, {""}, {""}, {""}, {""}, {""}, {""}, {""}, {""},
-      {""}, {""}, {""}, {""}, {""}, {""}, {""}, {""}, {""},
-      {""}, {""}, {""}, {""}, {""}, {""}, {""}, {""}, {""},
-      {""}, {""}, {""}, {""}, {""}, {""}, {""}, {""}, {""},
-      {""}, {""}, {""}, {""}, {""}, {""}, {""}, {""}, {""},
-      {""}, {""},
-#line 15 "/private/var/folders/hc/19hq28_941d4h7wx_qj406vr0000gn/T/dieskim/titanium-countly-android-messaging-generated/KrollGeneratedBindings.gperf"
-      {"count.ly.messaging.TitaniumCountlyAndroidMessagingModule", ::count::ly::messaging::TitaniumCountlyAndroidMessagingModule::bindProxy, ::count::ly::messaging::TitaniumCountlyAndroidMessagingModule::dispose}
-    };
-
-  if (len <= MAX_WORD_LENGTH && len >= MIN_WORD_LENGTH)
-    {
-      unsigned int key = hash (str, len);
-
-      if (key <= MAX_HASH_VALUE)
-        {
-          register const char *s = wordlist[key].name;
-
-          if (*str == *s && !strcmp (str + 1, s + 1))
-            return &wordlist[key];
-        }
-    }
-  return 0;
-}
-#line 16 "/private/var/folders/hc/19hq28_941d4h7wx_qj406vr0000gn/T/dieskim/titanium-countly-android-messaging-generated/KrollGeneratedBindings.gperf"
-

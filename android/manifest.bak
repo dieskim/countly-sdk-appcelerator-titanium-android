@@ -1,0 +1,18 @@
+#
+# this is your module manifest and used by Titanium
+# during compilation, packaging, distribution, etc.
+#
+version: 1.1.1
+apiversion: 3
+architectures: armeabi-v7a x86
+description: titanium-countly-android-messaging
+author: Dieskim
+license: MIT
+copyright: Copyright (c) 2015 by Kiteplans.info
+
+# these should not be edited
+name: titanium-countly-android-messaging
+moduleid: count.ly.messaging
+guid: b12b20bf-69c8-4cfa-9f06-a5dd789d651d
+platform: android
+minsdk: 7.0.0.GA

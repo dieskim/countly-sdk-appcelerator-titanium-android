@@ -37,7 +37,14 @@
 					<intent-filter>
 						<action android:name="org.openudid.GETUDID" />
 					</intent-filter>
-				</service>          
+				</service>
+				 <!-- START - Countly INSTALL REFERRER-->
+                <receiver android:name="ly.count.android.sdk.ReferrerReceiver" android:exported="true">
+    				<intent-filter>
+       					<action android:name="com.android.vending.INSTALL_REFERRER" />
+    				</intent-filter>
+				</receiver>
+				<!-- END - Countly INSTALL REFERRER-->        
 			</application>
 	        <!-- END - Application SECTION -->
 		</manifest>	
