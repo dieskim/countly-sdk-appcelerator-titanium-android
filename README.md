@@ -28,7 +28,7 @@ Countly SDK Guides;
 ### Please note that this Module is under development.
 ### Please log issues via github issues
 ### Any pull requests and suggestions welcome!
-### Author: Dieskim of (Kiteplans.info)](https://www.kiteplans.info)
+### Author: Dieskim of (dieskim.me)](https://www.dieskim.me)
 ### Development Sponsors: 
 #### - Messaging: http://Hamsane.com - Friend who loves your way of working - Thanks!
 #### - Crash Reports: http://www.count.ly
@@ -340,7 +340,7 @@ Ti.API.log("countlyDeviceID: " + countlyDeviceID);
 
 ## Author
 
-Author: Dieskim of (Kiteplans.info)](https://www.kiteplans.info)
+Author: Dieskim of (dieskim.me)](https://www.dieskim.me)
 
 ## License
 
