@@ -49,10 +49,8 @@ public class TitaniumProxyService extends IntentService {
             if (intentMessage.isValid()) {
             	Log.d(TAG, "Got a message from intent: " + intentMessage);
             	
-            	// mark message open
-            	CountlyMessaging.recordMessageOpen(intentMessage.getId());
             	
-            	// Create HashMap of Notification info and add data
+				// Create HashMap of Notification info and add data
 				HashMap pushMessage = new HashMap();
 				pushMessage.put("id", intentMessage.getId());
 				pushMessage.put("message", intentMessage.getNotificationMessage());
@@ -86,6 +84,16 @@ public class TitaniumProxyService extends IntentService {
 				
 				// Run Intent to Launch App
 				getApplicationContext().startActivity(launch);	
+
+
+				//Make sure we have countly initialized before recording the message event.
+				if (!Countly.sharedInstance().isInitialized()) {
+                    if (!CountlyMessaging.initCountly(getApplicationContext())) {
+                        Log.e(TAG, "Cannot init Countly in background");
+                    } else { 	
+                    	Log.e(TAG, "Countly initialized");
+                    }
+                }
 				
 				// Set TitaniumCountlyAndroidMessagingModule.message
 	            TitaniumCountlyAndroidMessagingModule.message = intentMessage;
@@ -94,6 +102,9 @@ public class TitaniumProxyService extends IntentService {
 	            // if application was just in background this will process the notification
 	            // else application will start and check TiProperties for pushMessage on startup
 				TitaniumCountlyAndroidMessagingModule.processPushCallBack();
+
+				// mark message open
+            	CountlyMessaging.recordMessageOpen(intentMessage.getId());
 				
             }else{
             	Log.d(TAG, "No Valid Message Found");
